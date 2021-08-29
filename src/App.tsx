@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import Banner from './components/banner/banner';
 import './App.css';
 
 function App() {
@@ -7,7 +7,9 @@ function App() {
   console.log('api: ', process.env.REACT_APP_FOOTBAL_API);
   return (
     <div className="App">
-      <header className="App-header">API: {process.env.REACT_APP_FOOTBAL_API}</header>
+      <header className="App-header">
+        <Banner className="football" />
+      </header>
     </div>
   );
 }
