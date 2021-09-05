@@ -1,4 +1,6 @@
 import React, { FunctionComponent } from 'react';
+import classnames from 'classnames';
+
 import './TeamLogo.scss';
 
 type LogoProps = {
@@ -8,7 +10,7 @@ type LogoProps = {
 };
 const TeamLogo: FunctionComponent<LogoProps> = ({ logo, team, size }) => (
   <div>
-    <img src={logo} alt={team} className={size} />
+    <img src={logo} alt={team} className={classnames('teamLogo', size)} />
   </div>
 );
 

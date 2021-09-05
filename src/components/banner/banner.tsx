@@ -24,6 +24,9 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
     rankLogo: league[0].team.logo,
     team: league[0].team.name,
     boxScore: league[0].all,
+    goalDiff: league[0].goalsDiff,
+    points: league[0].points,
+    form: league[0].form,
   };
 
   const [state, setState] = useMergeState(initialState);
@@ -45,6 +48,9 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
       rankLogo: league[visibleRank].team.logo,
       team: league[visibleRank].team.name,
       boxScore: league[visibleRank].all,
+      goalDiff: league[visibleRank].goalsDiff,
+      points: league[visibleRank].points,
+      form: league[visibleRank].form,
     });
   };
 
