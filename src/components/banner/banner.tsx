@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import classnames from 'classnames';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -17,10 +17,9 @@ type BannerProps = {
 
 const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
   const league = data.league.standings[0];
-  console.log('here', league);
 
   const initialState = {
-    visibleRank: 1,
+    visibleRank: 0,
     rankLogo: league[0].team.logo,
     team: league[0].team.name,
     boxScore: league[0].all,
@@ -43,26 +42,28 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
   };
 
   const upClickHandler = (): any => {
+    const tempRank = wrapRank(state.visibleRank, 1);
     setState({
-      visibleRank: wrapRank(state.visibleRank, 1),
-      rankLogo: league[visibleRank].team.logo,
-      team: league[visibleRank].team.name,
-      boxScore: league[visibleRank].all,
-      goalDiff: league[visibleRank].goalsDiff,
-      points: league[visibleRank].points,
-      form: league[visibleRank].form,
+      visibleRank: tempRank,
+      rankLogo: league[tempRank].team.logo,
+      team: league[tempRank].team.name,
+      boxScore: league[tempRank].all,
+      goalDiff: league[tempRank].goalsDiff,
+      points: league[tempRank].points,
+      form: league[tempRank].form,
     });
   };
 
   const downClickHandler = (): any => {
+    const tempRank = wrapRank(state.visibleRank, -1);
     setState({
-      visibleRank: wrapRank(state.visibleRank, -1),
-      rankLogo: league[visibleRank].team.logo,
-      team: league[visibleRank].team.name,
-      boxScore: league[visibleRank].all,
-      goalDiff: league[visibleRank].goalsDiff,
-      points: league[visibleRank].points,
-      form: league[visibleRank].form,
+      visibleRank: tempRank,
+      rankLogo: league[tempRank].team.logo,
+      team: league[tempRank].team.name,
+      boxScore: league[tempRank].all,
+      goalDiff: league[tempRank].goalsDiff,
+      points: league[tempRank].points,
+      form: league[tempRank].form,
     });
   };
 
