@@ -9,7 +9,7 @@ type LogoProps = {
   size: string;
 };
 const TeamLogo: FunctionComponent<LogoProps> = ({ logo, team, size }) => (
-  <div>
+  <div className="football_logo">
     <img src={logo} alt={team} className={classnames('teamLogo', size)} />
   </div>
 );

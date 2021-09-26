@@ -42,28 +42,28 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
   };
 
   const upClickHandler = (): any => {
-    const tempRank = wrapRank(state.visibleRank, 1);
+    const newRank = wrapRank(state.visibleRank, 1);
     setState({
-      visibleRank: tempRank,
-      rankLogo: league[tempRank].team.logo,
-      team: league[tempRank].team.name,
-      boxScore: league[tempRank].all,
-      goalDiff: league[tempRank].goalsDiff,
-      points: league[tempRank].points,
-      form: league[tempRank].form,
+      visibleRank: newRank,
+      rankLogo: league[newRank].team.logo,
+      team: league[newRank].team.name,
+      boxScore: league[newRank].all,
+      goalDiff: league[newRank].goalsDiff,
+      points: league[newRank].points,
+      form: league[newRank].form,
     });
   };
 
   const downClickHandler = (): any => {
-    const tempRank = wrapRank(state.visibleRank, -1);
+    const newRank = wrapRank(state.visibleRank, -1);
     setState({
-      visibleRank: tempRank,
-      rankLogo: league[tempRank].team.logo,
-      team: league[tempRank].team.name,
-      boxScore: league[tempRank].all,
-      goalDiff: league[tempRank].goalsDiff,
-      points: league[tempRank].points,
-      form: league[tempRank].form,
+      visibleRank: newRank,
+      rankLogo: league[newRank].team.logo,
+      team: league[newRank].team.name,
+      boxScore: league[newRank].all,
+      goalDiff: league[newRank].goalsDiff,
+      points: league[newRank].points,
+      form: league[newRank].form,
     });
   };
 

@@ -21,12 +21,11 @@ const BoxScore: FunctionComponent<BoxScoreProps> = ({
   form,
 }) => {
   return (
-    <div>
+    <div className="football_boxscore">
       <div className="football_title">{team}</div>
-      <br />
-      <table className="footbal__table">
+      <table className="football__table">
         <tbody>
-          <tr className="footbal__table_tr">
+          <tr className="football__table_tr">
             <th className="football__table__header">
               <div aria-label="Rank">Rank</div>
             </th>
