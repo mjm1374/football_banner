@@ -41,21 +41,8 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
     return tempRank;
   };
 
-  const upClickHandler = (): any => {
-    const newRank = wrapRank(state.visibleRank, 1);
-    setState({
-      visibleRank: newRank,
-      rankLogo: league[newRank].team.logo,
-      team: league[newRank].team.name,
-      boxScore: league[newRank].all,
-      goalDiff: league[newRank].goalsDiff,
-      points: league[newRank].points,
-      form: league[newRank].form,
-    });
-  };
-
-  const downClickHandler = (): any => {
-    const newRank = wrapRank(state.visibleRank, -1);
+  const tableClickHandler = (direction: number): any => {
+    const newRank = wrapRank(state.visibleRank, direction);
     setState({
       visibleRank: newRank,
       rankLogo: league[newRank].team.logo,
@@ -75,7 +62,7 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
             <div className="card-body">
               <div className="arrow_container">
                 <div className="arrows">
-                  <Button onClick={upClickHandler}>
+                  <Button onClick={() => tableClickHandler(-1)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -90,7 +77,7 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
                       />
                     </svg>
                   </Button>
-                  <Button onClick={downClickHandler}>
+                  <Button onClick={() => tableClickHandler(1)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
