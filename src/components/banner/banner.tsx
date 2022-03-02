@@ -1,31 +1,51 @@
 /* eslint-disable react/button-has-type */
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect, Component } from 'react';
 import classnames from 'classnames';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 import BoxScore from '../boxScore/BoxScore';
 import TeamLogo from '../teamLogo/TeamLogo';
 import { useMergeState } from '../../hooks';
 
-import data from '../../data/league-table.js';
+import data2 from '../../data/league-table.js';
+import { useFetch } from '../../hooks/getTable';
 
 import './banner.scss';
 
 type BannerProps = {
   className?: string;
+  apiKey: string;
 };
 
-const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
-  const league = data.league.standings[0];
+const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children }) => {
+  // const league = data2.league.standings[0];
+  const season = '2021';
+  const premeireLeague = 39;
+  console.log(`apikey =  ${apiKey}`);
+  const url = `https://api-football-v1.p.rapidapi.com/v3/standings?season=${season}&league=${premeireLeague}`;
+  let league: { form: any }[] | null = null;
+
+  const { data } = useFetch({
+    url,
+    onSuccess: () => {
+      console.log('success', data);
+      // eslint-disable-next-line prefer-destructuring
+      // league = data.response.league.standings[0];
+    },
+  });
+  console.log('successX', data.response[0].league.standings[0]);
+  // eslint-disable-next-line prefer-destructuring
+  league = data.response[0].league.standings[0];
 
   const initialState = {
     visibleRank: 0,
-    rankLogo: league[0].team.logo,
-    team: league[0].team.name,
-    boxScore: league[0].all,
-    goalDiff: league[0].goalsDiff,
-    points: league[0].points,
-    form: league[0].form,
+    rankLogo: '',
+    team: '',
+    boxScore: { for: '', against: '' },
+    goalDiff: '',
+    points: '',
+    form: '',
   };
 
   const [state, setState] = useMergeState(initialState);
@@ -43,6 +63,7 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
 
   const tableClickHandler = (direction: number): any => {
     const newRank = wrapRank(state.visibleRank, direction);
+    console.log('click', league);
     setState({
       visibleRank: newRank,
       rankLogo: league[newRank].team.logo,
@@ -53,6 +74,40 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
       form: league[newRank].form,
     });
   };
+
+  // const getData = () => {
+  //   const retrievedObject = localStorage.getItem('storedLeague');
+  //   if (retrievedObject != null && retrievedObject) {
+  //     // league = JSON.parse(retrievedObject);
+  //     // league = { ...retrievedObject.data.response[0].league.standings[0] };
+  //   }
+
+  //   if (state.team === null || state.team === '') {
+  //   axios
+  //     .get(
+  //       `https://api-football-v1.p.rapidapi.com/v3/standings?season=${season}&league=${premeireLeague}`,
+  //       // 'https://jsonplaceholder.typicode.com/todos/1',
+  //       {
+  //         headers: {
+  //           'content-type': 'application/octet-stream',
+  //           'X-RapidAPI-Key': apiKey,
+  //           RapidAPI: 'api-football-v1.p.rapidapi.com',
+  //         },
+  //       },
+  //     )
+  //     .then(function (response) {
+  //       console.log(response);
+  //       league = { ...response.data.response[0].league.standings[0] };
+  //       localStorage.setItem('storedLeague', JSON.stringify(league));
+  //     });
+  //   // }
+  //   console.log('xxx', league);
+  //   tableClickHandler(0);
+  // };
+
+  // if (league !== null) {
+  //   getData();
+  // }
 
   return (
     <div className={classnames('container-fluid', className)}>

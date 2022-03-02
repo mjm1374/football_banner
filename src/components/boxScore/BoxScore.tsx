@@ -60,8 +60,8 @@ const BoxScore: FunctionComponent<BoxScoreProps> = ({
             <td className="football__table__td__div">{boxScore.win}</td>
             <td className="football__table__td__div">{boxScore.draw}</td>
             <td className="football__table__td__div">{boxScore.lose}</td>
-            <td className="football__table__td__div">{boxScore.goals.for}</td>
-            <td className="football__table__td__div">{boxScore.goals.against}</td>
+            {/* <td className="football__table__td__div">{boxScore.goals.for}</td>
+            <td className="football__table__td__div">{boxScore.goals.against}</td> */}
             <td className="football__table__td__div">{goalDiff}</td>
             <td className="football__table__td__div">{points}</td>
           </tr>
