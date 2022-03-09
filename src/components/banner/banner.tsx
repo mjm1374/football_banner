@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState, useEffect, Component } from 'react'
 import classnames from 'classnames';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
+import axios from '../../hooks/axios';
 import BoxScore from '../boxScore/BoxScore';
 import TeamLogo from '../teamLogo/TeamLogo';
 import { useMergeState } from '../../hooks';
@@ -19,24 +19,9 @@ type BannerProps = {
 };
 
 const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children }) => {
-  // const league = data2.league.standings[0];
   const season = '2021';
   const premeireLeague = 39;
   console.log(`apikey =  ${apiKey}`);
-  const url = `https://api-football-v1.p.rapidapi.com/v3/standings?season=${season}&league=${premeireLeague}`;
-  let league: { form: any }[] | null = null;
-
-  const { data } = useFetch({
-    url,
-    onSuccess: () => {
-      console.log('success', data);
-      // eslint-disable-next-line prefer-destructuring
-      // league = data.response.league.standings[0];
-    },
-  });
-  console.log('successX', data.response[0].league.standings[0]);
-  // eslint-disable-next-line prefer-destructuring
-  league = data.response[0].league.standings[0];
 
   const initialState = {
     visibleRank: 0,
@@ -49,9 +34,67 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
   };
 
   const [state, setState] = useMergeState(initialState);
+  const [league, setLeague] = useMergeState([]);
   const { standings, visibleRank, rankLogo, team } = state;
 
   const initialValues = {};
+
+  useEffect(() => {
+    async function fetchLeague() {
+      // eslint-disable-next-line prettier/prettier
+      const request = await axios
+        .get(
+        `https://api-football-v1.p.rapidapi.com/v3/standings?season=${season}&league=${premeireLeague}`,
+        // 'https://jsonplaceholder.typicode.com/todos/1',
+        {
+          headers: {
+            'content-type': 'application/octet-stream',
+            'X-RapidAPI-Key': 'Rd2pyVFguwJeulnqTswlZ2pJCrlurqnE',
+            RapidAPI: 'api-football-v1.p.rapidapi.com',
+          },
+        },
+      );
+      // .then(function (response) {
+      //   console.log('axios', response);
+      //   setLeague({ ...response.data.response[0].league.standings[0] });
+      //   // localStorage.setItem('storedLeague', JSON.stringify(league));
+      //   console.log('league', league);
+      //   console.log('logo', : 0,
+      //   rankLogo: response.data.response[0].league.standings[0].team.logo);
+      //   setState({
+      //     visibleRank: 0,
+      //     rankLogo: response.data.response[0].league.standings[0].team.logo,
+      //     // team: league[0].team.name,
+      //     // boxScore: league[0].all,
+      //     // goalDiff: league[0].goalsDiff,
+      //     // points: league[0].points,
+      //     // form: league[0].form,
+      //   });
+      // });
+
+      console.log('request', request);
+      console.log('standing', request.data.response[0].league.standings[0][1].team.name);
+      setLeague({ ...request.data.response[0].league.standings[0] });
+      setState({
+        visibleRank: 0,
+        rankLogo: request.data.response[0].league.standings[0][0].team.logo,
+        team: request.data.response[0].league.standings[0][0].team.name,
+        boxScore: request.data.response[0].league.standings[0][0].all,
+        goalDiff: request.data.response[0].league.standings[0][0].goalsDiff,
+        points: request.data.response[0].league.standings[0][0].points,
+        form: request.data.response[0].league.standings[0][0].form,
+      });
+      return request;
+    }
+
+    fetchLeague();
+  }, []);
+
+  const url = `https://api-football-v1.p.rapidapi.com/v3/standings?season=${season}&league=${premeireLeague}`;
+  // const league: { form: any }[] | null = null;
+
+  // eslint-disable-next-line prefer-destructuring
+  // league = data.response[0].league.standings[0];
 
   const wrapRank = (rank: number, direction: number): number => {
     let tempRank = rank;
@@ -60,6 +103,26 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
     if (tempRank === -1) tempRank = 19;
     return tempRank;
   };
+
+  // const { data } = useFetch({
+  //   url,
+  //   onSuccess: () => {
+  //     console.log('success', data);
+  //     // tableClickHandler(0);
+  //     // eslint-disable-next-line prefer-destructuring
+  //     // league = data.response.league.standings[0];
+  //     // setState({
+  //     //   visibleRank: 0,
+  //     //   rankLogo: data[0].team.logo,
+  //     //   team: data[0].team.name,
+  //     //   boxScore: data[0].all,
+  //     //   goalDiff: data[0].goalsDiff,
+  //     //   points: data[0].points,
+  //     //   form: data[0].form,
+  //     // });
+  //   },
+  // });
+  // console.log('successX', data);
 
   const tableClickHandler = (direction: number): any => {
     const newRank = wrapRank(state.visibleRank, direction);

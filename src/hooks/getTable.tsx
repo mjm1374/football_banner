@@ -29,7 +29,8 @@ export const useFetch = (options) => {
         .then((json) => {
           if (!isCancelled) {
             savedOnSuccess.current?.(json);
-            setData(json);
+            setData(json.response[0].league.standings[0]);
+            console.log('useEffect', data);
           }
         });
       return () => {
