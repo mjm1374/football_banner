@@ -1,37 +1,68 @@
 /* eslint-disable react/button-has-type */
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import classnames from 'classnames';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import axios from '../../hooks/axios';
 import BoxScore from '../boxScore/BoxScore';
 import TeamLogo from '../teamLogo/TeamLogo';
 import { useMergeState } from '../../hooks';
-
-import data from '../../data/league-table.js';
 
 import './banner.scss';
 
 type BannerProps = {
   className?: string;
+  apiKey: string;
 };
 
-const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
-  const league = data.league.standings[0];
+const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children }) => {
+  const season = '2021';
+  const premeireLeague = 39;
+  const url = `https://api-football-v1.p.rapidapi.com/v3/standings?season=${season}&league=${premeireLeague}`;
 
   const initialState = {
     visibleRank: 0,
-    rankLogo: league[0].team.logo,
-    team: league[0].team.name,
-    boxScore: league[0].all,
-    goalDiff: league[0].goalsDiff,
-    points: league[0].points,
-    form: league[0].form,
+    rankLogo: '',
+    team: '',
+    boxScore: { goals: { for: '', against: '' } },
+    goalDiff: '',
+    points: '',
+    form: '',
   };
 
   const [state, setState] = useMergeState(initialState);
+  const [league, setLeague] = useMergeState([]);
   const { standings, visibleRank, rankLogo, team } = state;
 
   const initialValues = {};
+
+  useEffect(() => {
+    async function fetchLeague() {
+      const request = await axios.get(`${url}`, {
+        headers: {
+          'content-type': 'application/octet-stream',
+          'X-RapidAPI-Key': `${apiKey}`,
+          RapidAPI: 'api-football-v1.p.rapidapi.com',
+        },
+      });
+
+      setLeague({ ...request.data.response[0].league.standings[0] });
+      setState({
+        visibleRank: 0,
+        rankLogo: request.data.response[0].league.standings[0][0].team.logo,
+        team: request.data.response[0].league.standings[0][0].team.name,
+        boxScore: request.data.response[0].league.standings[0][0].all,
+        goalDiff: request.data.response[0].league.standings[0][0].goalsDiff,
+        points: request.data.response[0].league.standings[0][0].points,
+        form: request.data.response[0].league.standings[0][0].form,
+      });
+      return request;
+    }
+
+    fetchLeague();
+  }, []);
+
+  console.log(state.boxScore);
 
   const wrapRank = (rank: number, direction: number): number => {
     let tempRank = rank;

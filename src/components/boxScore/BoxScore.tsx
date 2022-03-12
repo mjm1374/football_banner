@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
-import classnames from 'classnames';
+import React, { FunctionComponent } from 'react';
 
 import './BoxScore.scss';
 
