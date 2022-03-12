@@ -24,7 +24,7 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
     visibleRank: 0,
     rankLogo: '',
     team: '',
-    boxScore: { for: '', against: '' },
+    boxScore: { goals: { for: '', against: '' } },
     goalDiff: '',
     points: '',
     form: '',
@@ -62,7 +62,7 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
     fetchLeague();
   }, []);
 
-  // console.log(league);
+  console.log(state.boxScore);
 
   const wrapRank = (rank: number, direction: number): number => {
     let tempRank = rank;
