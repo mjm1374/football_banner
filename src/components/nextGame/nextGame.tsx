@@ -3,17 +3,17 @@ import axios from '../../hooks/axios';
 import { useMergeState } from '../../hooks';
 import TeamLogo from '../teamLogo/TeamLogo';
 
-import './lastGame.scss';
+import '../lastGame/lastGame.scss';
 
 type LastGameProps = {
   className?: string;
   apiKey: string;
 };
 
-const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, className, children }) => {
+const NexttGame: FunctionComponent<LastGameProps> = ({ apiKey, className, children }) => {
   const season = '2021';
   const premeireLeague = 39;
-  const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?season=${season}&league=${premeireLeague}&team=50&last=1`;
+  const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?season=${season}&league=${premeireLeague}&team=50&next=1`;
 
   const initialState = {
     gameDate: '',
@@ -62,11 +62,7 @@ const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, className, childre
           </div>
           <div className="score__block">
             {state.gameDate}
-            <br />
-            <div className="score__score">
-              {state.goals.home} - {state.goals.away}
-            </div>
-            {state.venue}
+            <div>{state.venue}</div>
           </div>
           <div className="score__block">
             <TeamLogo logo={state.teams.away.logo} team={state.teams.away.name} size="med" />
@@ -78,4 +74,4 @@ const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, className, childre
   );
 };
 
-export default LastGame;
+export default NexttGame;

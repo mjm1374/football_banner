@@ -5,9 +5,10 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import axios from '../../hooks/axios';
 import BoxScore from '../boxScore/BoxScore';
-import TeamLogo from '../teamLogo/TeamLogo';
 import { useMergeState } from '../../hooks';
+import TeamLogo from '../teamLogo/TeamLogo';
 import LastGame from '../lastGame/lastGame';
+import NextGame from '../nextGame/nextGame';
 
 import './banner.scss';
 
@@ -143,7 +144,7 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
         </div>
         <div className="col-sm">
           <Card>
-            <div className="card-body">This is some text within a card body.</div>
+            <NextGame apiKey={apiKey} className="NextGame" />
           </Card>
         </div>
         {children}
