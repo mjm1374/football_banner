@@ -7,6 +7,7 @@ import axios from '../../hooks/axios';
 import BoxScore from '../boxScore/BoxScore';
 import TeamLogo from '../teamLogo/TeamLogo';
 import { useMergeState } from '../../hooks';
+import LastGame from '../lastGame/lastGame';
 
 import './banner.scss';
 
@@ -33,8 +34,6 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
   const [state, setState] = useMergeState(initialState);
   const [league, setLeague] = useMergeState([]);
   const { standings, visibleRank, rankLogo, team } = state;
-
-  const initialValues = {};
 
   useEffect(() => {
     async function fetchLeague() {
@@ -139,7 +138,7 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
         </div>
         <div className="col-sm">
           <Card>
-            <div className="card-body">Card 2</div>
+            <LastGame apiKey={apiKey} className="lastGame" />
           </Card>
         </div>
         <div className="col-sm">
