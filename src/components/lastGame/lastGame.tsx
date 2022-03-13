@@ -7,19 +7,21 @@ import './lastGame.scss';
 
 type LastGameProps = {
   className?: string;
+  direction?: boolean;
   apiKey: string;
 };
 
-const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, className, children }) => {
+const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, direction, className, children }) => {
   const season = '2021';
   const premeireLeague = 39;
-  const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?season=${season}&league=${premeireLeague}&team=50&last=1`;
+  const apiDirection = direction ? 'last' : 'next';
+  const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?season=${season}&league=${premeireLeague}&team=50&${apiDirection}=1`;
 
   const initialState = {
     gameDate: '',
     teams: { away: { name: '', id: '', logo: '' }, home: { name: '', id: '', logo: '' } },
     goals: { away: '0', home: '0' },
-    venue: { name: '' },
+    venue: '',
   };
 
   const [state, setState] = useMergeState(initialState);
@@ -42,35 +44,42 @@ const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, className, childre
         venue: request.data.response[0].fixture.venue.name,
         gameDate: gameDate.toDateString(),
       });
-      console.log('request', request);
       return request;
     }
 
     fetchGames();
   }, []);
 
-  console.log('state', state);
-
   return (
     <div className="card-body">
       <div className="card-lastGame">
-        <h4>Last Man City Game</h4>
+        <h4>{direction ? 'Last' : 'Next'} Man City Game</h4>
         <div className="score">
           <div className="score__block">
-            <TeamLogo logo={state.teams.home.logo} team={state.teams.home.name} size="med" />
-            <div className="score__teamName">{state.teams.home.name}</div>
+            <TeamLogo
+              logo={state.teams.home.logo}
+              team={state.teams.home.name}
+              size="med"
+              showName
+            />
           </div>
           <div className="score__block">
             {state.gameDate}
             <br />
-            <div className="score__score">
-              {state.goals.home} - {state.goals.away}
-            </div>
-            {state.venue}
+            {direction && (
+              <div className="score__score">
+                {state.goals.home} - {state.goals.away}
+              </div>
+            )}
+            <div>{state.venue}</div>
           </div>
           <div className="score__block">
-            <TeamLogo logo={state.teams.away.logo} team={state.teams.away.name} size="med" />
-            <div className="score__teamName">{state.teams.away.name}</div>
+            <TeamLogo
+              logo={state.teams.away.logo}
+              team={state.teams.away.name}
+              size="med"
+              showName
+            />
           </div>
         </div>
       </div>
