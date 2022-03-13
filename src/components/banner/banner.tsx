@@ -5,8 +5,9 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import axios from '../../hooks/axios';
 import BoxScore from '../boxScore/BoxScore';
-import TeamLogo from '../teamLogo/TeamLogo';
 import { useMergeState } from '../../hooks';
+import TeamLogo from '../teamLogo/TeamLogo';
+import LastGame from '../lastGame/lastGame';
 
 import './banner.scss';
 
@@ -32,9 +33,7 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
 
   const [state, setState] = useMergeState(initialState);
   const [league, setLeague] = useMergeState([]);
-  const { standings, visibleRank, rankLogo, team } = state;
-
-  const initialValues = {};
+  const { team } = state;
 
   useEffect(() => {
     async function fetchLeague() {
@@ -61,8 +60,6 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
 
     fetchLeague();
   }, []);
-
-  console.log(state.boxScore);
 
   const wrapRank = (rank: number, direction: number): number => {
     let tempRank = rank;
@@ -138,13 +135,13 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
           </Card>
         </div>
         <div className="col-sm">
-          <Card>
-            <div className="card-body">Card 2</div>
+          <Card className="mobileHide">
+            <LastGame apiKey={apiKey} className="lastGame" direction />
           </Card>
         </div>
         <div className="col-sm">
-          <Card>
-            <div className="card-body">This is some text within a card body.</div>
+          <Card className="mobileHide">
+            <LastGame apiKey={apiKey} className="lastGame" />
           </Card>
         </div>
         {children}

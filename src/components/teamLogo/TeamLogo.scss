@@ -10,10 +10,47 @@
     width: 25px;
 }
 
-.football_logo{
-    width:135px;
-}
 
 .teamLogo{
     margin: 0 10px;
+}
+
+
+.teamName.lrg {
+    font-size: 1.2em;
+    line-height: 1em;
+    display: block;
+    margin-top: 0.5em;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.teamName.med{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .85em;
+    line-height: 1em;
+    margin-top: 0.5em;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.teamName{
+    width: 100%;
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+    .lrg{
+        width: 90px;
+    }
+    
 }
