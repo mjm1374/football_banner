@@ -135,12 +135,12 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
           </Card>
         </div>
         <div className="col-sm">
-          <Card>
+          <Card className="mobileHide">
             <LastGame apiKey={apiKey} className="lastGame" direction />
           </Card>
         </div>
         <div className="col-sm">
-          <Card>
+          <Card className="mobileHide">
             <LastGame apiKey={apiKey} className="lastGame" />
           </Card>
         </div>
