@@ -15,6 +15,7 @@ type BannerProps = {
 const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children }) => {
   const season = 2021;
   const premeireLeague = 39;
+  const team = 50;
 
   return (
     <div className={classnames('container-fluid', className)}>
@@ -36,6 +37,7 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
               season={season}
               premeireLeague={premeireLeague}
               className="gameCard"
+              team={team}
               direction
             />
           </Card>
@@ -47,6 +49,7 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
               season={season}
               premeireLeague={premeireLeague}
               className="gameCard"
+              team={team}
             />
           </Card>
         </div>

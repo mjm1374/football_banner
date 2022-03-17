@@ -11,6 +11,7 @@ type GameCardProps = {
   apiKey: string;
   season: number;
   premeireLeague: number;
+  team: number;
 };
 
 const GameCard: FunctionComponent<GameCardProps> = ({
@@ -18,9 +19,10 @@ const GameCard: FunctionComponent<GameCardProps> = ({
   direction,
   season,
   premeireLeague,
+  team,
 }) => {
   const apiDirection = direction ? 'last' : 'next';
-  const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?season=${season}&league=${premeireLeague}&team=50&${apiDirection}=1`;
+  const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?season=${season}&league=${premeireLeague}&team=${team}&${apiDirection}=1`;
 
   const initialState = {
     gameDate: '',
@@ -42,7 +44,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
       });
 
       const gameDate = new Date(request.data.response[0].fixture.date);
-
+      console.log(request);
       setState({
         teams: request.data.response[0].teams,
         goals: request.data.response[0].goals,
@@ -58,7 +60,10 @@ const GameCard: FunctionComponent<GameCardProps> = ({
   return (
     <div className="card-body">
       <div className="card-gameCard">
-        <h4>{direction ? 'Last' : 'Next'} Man City Game</h4>
+        <h4>
+          {direction ? 'Last' : 'Next'}{' '}
+          {team === state.teams.home.id ? state.teams.home.name : state.teams.away.name} Game
+        </h4>
         <div className="score">
           <div className="score__block">
             <TeamLogo
