@@ -3,17 +3,22 @@ import axios from '../../hooks/axios';
 import { useMergeState } from '../../hooks';
 import TeamLogo from '../teamLogo/TeamLogo';
 
-import './lastGame.scss';
+import './gameCard.scss';
 
-type LastGameProps = {
+type GameCardProps = {
   className?: string;
   direction?: boolean;
   apiKey: string;
+  season: number;
+  premeireLeague: number;
 };
 
-const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, direction, className, children }) => {
-  const season = '2021';
-  const premeireLeague = 39;
+const GameCard: FunctionComponent<GameCardProps> = ({
+  apiKey,
+  direction,
+  season,
+  premeireLeague,
+}) => {
   const apiDirection = direction ? 'last' : 'next';
   const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?season=${season}&league=${premeireLeague}&team=50&${apiDirection}=1`;
 
@@ -35,7 +40,7 @@ const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, direction, classNa
           RapidAPI: 'api-football-v1.p.rapidapi.com',
         },
       });
-      console.log(request);
+
       const gameDate = new Date(request.data.response[0].fixture.date);
 
       setState({
@@ -52,7 +57,7 @@ const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, direction, classNa
 
   return (
     <div className="card-body">
-      <div className="card-lastGame">
+      <div className="card-gameCard">
         <h4>{direction ? 'Last' : 'Next'} Man City Game</h4>
         <div className="score">
           <div className="score__block">
@@ -87,4 +92,4 @@ const LastGame: FunctionComponent<LastGameProps> = ({ apiKey, direction, classNa
   );
 };
 
-export default LastGame;
+export default GameCard;

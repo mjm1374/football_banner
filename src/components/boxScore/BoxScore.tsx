@@ -22,6 +22,7 @@ const BoxScore: FunctionComponent<BoxScoreProps> = ({
   return (
     <div className="football_boxscore">
       <div className="football_title">{team}</div>
+      <div>Premeire League</div>
       <table className="football__table">
         <tbody>
           <tr className="football__table_tr">
