@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-
+import TeamForm from '../teamForm/teamForm';
 import './BoxScore.scss';
 
 type BoxScoreProps = {
@@ -68,7 +68,7 @@ const BoxScore: FunctionComponent<BoxScoreProps> = ({
         </tbody>
       </table>
       <div className="football_rank">
-        <span className="bold">Form:</span> {form}
+        <span className="bold">Form:</span> <TeamForm form={form} />
       </div>
     </div>
   );
