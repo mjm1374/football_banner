@@ -4,6 +4,7 @@ import axios from '../../hooks/axios';
 import BoxScore from '../boxScore/BoxScore';
 import { useMergeState } from '../../hooks';
 import TeamLogo from '../teamLogo/TeamLogo';
+import Spinner from '../spinner/spinner';
 
 type TableProps = {
   className?: string;
@@ -29,6 +30,7 @@ const Table: FunctionComponent<TableProps> = ({
     goalDiff: '',
     points: '',
     form: '',
+    dataLoaded: false,
   };
 
   const [state, setState] = useMergeState(initialState);
@@ -54,6 +56,7 @@ const Table: FunctionComponent<TableProps> = ({
         goalDiff: request.data.response[0].league.standings[0][0].goalsDiff,
         points: request.data.response[0].league.standings[0][0].points,
         form: request.data.response[0].league.standings[0][0].form,
+        dataLoaded: true,
       });
       return request;
     }
@@ -83,51 +86,57 @@ const Table: FunctionComponent<TableProps> = ({
   };
 
   return (
-    <div className="card-body">
-      <div className="arrow_container">
-        <div className="arrows">
-          <Button onClick={() => tableClickHandler(-1)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-arrow-up"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
-              />
-            </svg>
-          </Button>
-          <Button onClick={() => tableClickHandler(1)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-arrow-down"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-              />
-            </svg>
-          </Button>
+    <>
+      {!state.dataLoaded ? (
+        <Spinner />
+      ) : (
+        <div className="card-body">
+          <div className="arrow_container">
+            <div className="arrows">
+              <Button onClick={() => tableClickHandler(-1)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrow-up"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
+                  />
+                </svg>
+              </Button>
+              <Button onClick={() => tableClickHandler(1)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrow-down"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
+                  />
+                </svg>
+              </Button>
+            </div>
+          </div>
+          <TeamLogo logo={state.rankLogo} team={team} size="lrg" />
+          <BoxScore
+            team={state.team}
+            boxScore={state.boxScore}
+            goalDiff={state.goalDiff}
+            points={state.points}
+            rank={state.visibleRank}
+            form={state.form}
+          />
         </div>
-      </div>
-      <TeamLogo logo={state.rankLogo} team={team} size="lrg" />
-      <BoxScore
-        team={state.team}
-        boxScore={state.boxScore}
-        goalDiff={state.goalDiff}
-        points={state.points}
-        rank={state.visibleRank}
-        form={state.form}
-      />
-    </div>
+      )}
+    </>
   );
 };
 
