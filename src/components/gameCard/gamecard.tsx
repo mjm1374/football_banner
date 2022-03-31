@@ -72,7 +72,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
     <div className="card-body">
       <div className="card-gameCard">
         {!state.dataLoaded ? (
-          <Spinner />
+          <Spinner msg={direction ? 'Loading Last Game ' : 'Loading Next Game'} />
         ) : (
           <>
             {state.seasonOver ? (

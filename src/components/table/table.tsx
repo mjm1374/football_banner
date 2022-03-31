@@ -88,7 +88,7 @@ const Table: FunctionComponent<TableProps> = ({
   return (
     <>
       {!state.dataLoaded ? (
-        <Spinner />
+        <Spinner msg="Loading Table" />
       ) : (
         <div className="card-body">
           <div className="arrow_container">
