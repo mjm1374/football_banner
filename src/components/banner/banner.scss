@@ -11,6 +11,13 @@
         background-color: rgba(255,255,255,0.75);
         border-radius: 25px;
         border: 1px solid #000;
+        overflow: auto;
+        min-height: 150px;
+
+        .ui.inverted.dimmer{
+            background-color: rgba(255,255,255,0.0);
+        }
+        
     }
 
     .card-body{
@@ -18,6 +25,10 @@
         justify-content: space-between;
         align-items: flex-start;
         flex: 1 2; 
+        
+        .ui.inverted.dimmer{
+            background-color: rgba(255,255,255,0.0);
+        }
     }
 }
 

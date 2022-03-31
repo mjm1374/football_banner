@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import axios from '../../hooks/axios';
 import { useMergeState } from '../../hooks';
 import TeamLogo from '../teamLogo/TeamLogo';
+import Spinner from '../spinner/spinner';
 
 import './gameCard.scss';
 
@@ -30,6 +31,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
     goals: { away: '0', home: '0' },
     venue: '',
     seasonOver: false,
+    dataLoaded: false,
   };
 
   const [state, setState] = useMergeState(initialState);
@@ -52,10 +54,12 @@ const GameCard: FunctionComponent<GameCardProps> = ({
           venue: request.data.response[0].fixture.venue.name,
           gameDate: gameDate.toDateString(),
           seasonOver: false,
+          dataLoaded: true,
         });
       } else {
         setState({
           seasonOver: true,
+          dataLoaded: true,
         });
       }
       return request;
@@ -67,50 +71,62 @@ const GameCard: FunctionComponent<GameCardProps> = ({
   return (
     <div className="card-body">
       <div className="card-gameCard">
-        {state.seasonOver ? (
-          <>
-            <h4>
-              {direction ? 'Last ' : 'Next '}
-              {team === state.teams.home.id ? state.teams.home.name : state.teams.away.name} Game
-            </h4>
-            <div className="card-nextSeason">
-              <h4>{direction ? 'Last ' : 'Next '} Season</h4>
-            </div>
-          </>
+        {!state.dataLoaded ? (
+          <Spinner />
         ) : (
           <>
-            <h4>
-              {direction ? 'Last ' : 'Next '}
-              {team === state.teams.home.id ? state.teams.home.name : state.teams.away.name} Game
-            </h4>
-            <div className="score">
-              <div className="score__block">
-                <TeamLogo
-                  logo={state.teams.home.logo}
-                  team={state.teams.home.name}
-                  size="med"
-                  showName
-                />
-              </div>
-              <div className="score__block">
-                {state.gameDate}
-                <br />
-                {direction && (
-                  <div className="score__score">
-                    {state.goals.home} - {state.goals.away}
+            {state.seasonOver ? (
+              <>
+                <h4>
+                  {direction ? 'Last ' : 'Next '}
+                  {team === state.teams.home.id
+                    ? state.teams.home.name
+                    : state.teams.away.name}{' '}
+                  Game
+                </h4>
+                <div className="card-nextSeason">
+                  <h4>{direction ? 'Last ' : 'Next '} Season</h4>
+                </div>
+              </>
+            ) : (
+              <>
+                <h4>
+                  {direction ? 'Last ' : 'Next '}
+                  {team === state.teams.home.id
+                    ? state.teams.home.name
+                    : state.teams.away.name}{' '}
+                  Game
+                </h4>
+                <div className="score">
+                  <div className="score__block">
+                    <TeamLogo
+                      logo={state.teams.home.logo}
+                      team={state.teams.home.name}
+                      size="med"
+                      showName
+                    />
                   </div>
-                )}
-                <div>{state.venue}</div>
-              </div>
-              <div className="score__block">
-                <TeamLogo
-                  logo={state.teams.away.logo}
-                  team={state.teams.away.name}
-                  size="med"
-                  showName
-                />
-              </div>
-            </div>
+                  <div className="score__block">
+                    {state.gameDate}
+                    <br />
+                    {direction && (
+                      <div className="score__score">
+                        {state.goals.home} - {state.goals.away}
+                      </div>
+                    )}
+                    <div>{state.venue}</div>
+                  </div>
+                  <div className="score__block">
+                    <TeamLogo
+                      logo={state.teams.away.logo}
+                      team={state.teams.away.name}
+                      size="med"
+                      showName
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
