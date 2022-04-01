@@ -38,7 +38,7 @@ const Table: FunctionComponent<TableProps> = ({
   const { team } = state;
 
   useEffect(() => {
-    async function fetchLeague() {
+    const fetchLeague = async () => {
       const request = await axios.get(`${url}`, {
         headers: {
           'content-type': 'application/octet-stream',
@@ -59,7 +59,7 @@ const Table: FunctionComponent<TableProps> = ({
         dataLoaded: true,
       });
       return request;
-    }
+    };
 
     fetchLeague();
   }, []);
