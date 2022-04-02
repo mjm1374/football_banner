@@ -9,10 +9,9 @@ import './banner.scss';
 
 type BannerProps = {
   className?: string;
-  apiKey: string;
 };
 
-const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children }) => {
+const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
   const season = 2021;
   const premeireLeague = 39;
   const team = 50;
@@ -22,18 +21,12 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
       <div className="row">
         <div className="col-sm">
           <Card>
-            <Table
-              apiKey={apiKey}
-              season={season}
-              premeireLeague={premeireLeague}
-              className="gameCard"
-            />
+            <Table season={season} premeireLeague={premeireLeague} className="gameCard" />
           </Card>
         </div>
         <div className="col-sm">
           <Card className="mobileHide">
             <GameCard
-              apiKey={apiKey}
               season={season}
               premeireLeague={premeireLeague}
               className="gameCard"
@@ -45,7 +38,6 @@ const Banner: FunctionComponent<BannerProps> = ({ apiKey, className, children })
         <div className="col-sm">
           <Card className="mobileHide">
             <GameCard
-              apiKey={apiKey}
               season={season}
               premeireLeague={premeireLeague}
               className="gameCard"

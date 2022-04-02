@@ -1,27 +1,18 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import { useMergeState } from '../../hooks';
 import axios from '../../hooks/axios';
 import BoxScore from '../boxScore/BoxScore';
-import { useMergeState } from '../../hooks';
 import TeamLogo from '../teamLogo/TeamLogo';
 import Spinner from '../spinner/spinner';
 
 type TableProps = {
   className?: string;
-  apiKey: string;
   season: number;
   premeireLeague: number;
 };
 
-const Table: FunctionComponent<TableProps> = ({
-  apiKey,
-  season,
-  premeireLeague,
-  className,
-  children,
-}) => {
-  const url = `https://api-football-v1.p.rapidapi.com/v3/standings?season=${season}&league=${premeireLeague}`;
-
+const Table: FunctionComponent<TableProps> = ({ season, premeireLeague }) => {
   const initialState = {
     visibleRank: 0,
     rankLogo: '',
@@ -39,23 +30,23 @@ const Table: FunctionComponent<TableProps> = ({
 
   useEffect(() => {
     const fetchLeague = async () => {
-      const request = await axios.get(`${url}`, {
-        headers: {
-          'content-type': 'application/octet-stream',
-          'X-RapidAPI-Key': `${apiKey}`,
-          RapidAPI: 'api-football-v1.p.rapidapi.com',
+      const request = await axios.get(`/standings`, {
+        params: {
+          season,
+          league: premeireLeague,
         },
       });
 
-      setLeague({ ...request.data.response[0].league.standings[0] });
+      const tempLeague = { ...request.data.response[0].league.standings[0] };
+      setLeague({ ...tempLeague });
       setState({
         visibleRank: 0,
-        rankLogo: request.data.response[0].league.standings[0][0].team.logo,
-        team: request.data.response[0].league.standings[0][0].team.name,
-        boxScore: request.data.response[0].league.standings[0][0].all,
-        goalDiff: request.data.response[0].league.standings[0][0].goalsDiff,
-        points: request.data.response[0].league.standings[0][0].points,
-        form: request.data.response[0].league.standings[0][0].form,
+        rankLogo: tempLeague[0].team.logo,
+        team: tempLeague[0].team.name,
+        boxScore: tempLeague[0].all,
+        goalDiff: tempLeague[0].goalsDiff,
+        points: tempLeague[0].points,
+        form: tempLeague[0].form,
         dataLoaded: true,
       });
       return request;

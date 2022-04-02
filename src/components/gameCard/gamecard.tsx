@@ -9,21 +9,18 @@ import './gameCard.scss';
 type GameCardProps = {
   className?: string;
   direction?: boolean;
-  apiKey: string;
   season: number;
   premeireLeague: number;
   team: number;
 };
 
 const GameCard: FunctionComponent<GameCardProps> = ({
-  apiKey,
   direction,
   season,
   premeireLeague,
   team,
 }) => {
   const apiDirection = direction ? 'last' : 'next';
-  const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?season=${season}&league=${premeireLeague}&team=${team}&${apiDirection}=1`;
 
   const initialState = {
     gameDate: '',
@@ -38,20 +35,22 @@ const GameCard: FunctionComponent<GameCardProps> = ({
 
   useEffect(() => {
     async function fetchGames() {
-      const request = await axios.get(`${url}`, {
-        headers: {
-          'content-type': 'application/octet-stream',
-          'X-RapidAPI-Key': `${apiKey}`,
-          RapidAPI: 'api-football-v1.p.rapidapi.com',
+      const request = await axios.get('/fixtures', {
+        params: {
+          season,
+          league: premeireLeague,
+          team,
+          [`${apiDirection}`]: '1',
         },
       });
 
       if (request.data.results > 0) {
-        const gameDate = new Date(request.data.response[0].fixture.date);
+        const teamData = { ...request.data.response[0] };
+        const gameDate = new Date(teamData.fixture.date);
         setState({
-          teams: request.data.response[0].teams,
-          goals: request.data.response[0].goals,
-          venue: request.data.response[0].fixture.venue.name,
+          teams: teamData.teams,
+          goals: teamData.goals,
+          venue: teamData.fixture.venue.name,
           gameDate: gameDate.toDateString(),
           seasonOver: false,
           dataLoaded: true,
