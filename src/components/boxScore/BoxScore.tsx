@@ -4,6 +4,7 @@ import './BoxScore.scss';
 
 type BoxScoreProps = {
   team: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   boxScore: any;
   rank: number;
   goalDiff: number;

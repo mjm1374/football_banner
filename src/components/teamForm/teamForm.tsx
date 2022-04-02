@@ -4,11 +4,11 @@ import { Markup } from 'interweave';
 import './teamForm.scss';
 
 type TeamFormProps = {
-  form: string[];
+  form: string;
 };
 
 const TeamForm: FunctionComponent<TeamFormProps> = ({ form }) => {
-  const chars = [...form];
+  const chars = form.split('');
   let newForm = '';
   let formClass = '';
 

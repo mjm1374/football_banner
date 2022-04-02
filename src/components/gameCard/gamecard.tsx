@@ -34,6 +34,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
   const [state, setState] = useMergeState(initialState);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     async function fetchGames() {
       const request = await axios.get('/fixtures', {
         params: {
@@ -65,7 +66,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
     }
 
     fetchGames();
-  }, []);
+  }, [apiDirection, premeireLeague, season, setState, team]);
 
   return (
     <div className="card-body">

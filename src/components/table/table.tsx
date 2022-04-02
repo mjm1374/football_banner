@@ -29,6 +29,7 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague }) => {
   const { team } = state;
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchLeague = async () => {
       const request = await axios.get(`/standings`, {
         params: {
@@ -49,11 +50,11 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague }) => {
         form: tempLeague[0].form,
         dataLoaded: true,
       });
+
       return request;
     };
-
     fetchLeague();
-  }, []);
+  }, [premeireLeague, season, setLeague, setState]);
 
   const wrapRank = (rank: number, direction: number): number => {
     let tempRank = rank;
@@ -63,6 +64,7 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague }) => {
     return tempRank;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tableClickHandler = (direction: number): any => {
     const newRank = wrapRank(state.visibleRank, direction);
     setState({
