@@ -10,13 +10,14 @@ type TableProps = {
   className?: string;
   season: number;
   premeireLeague: number;
+  initialTeam: number;
 };
 
-const Table: FunctionComponent<TableProps> = ({ season, premeireLeague }) => {
+const Table: FunctionComponent<TableProps> = ({ season, premeireLeague, initialTeam }) => {
   const initialState = {
     visibleRank: 0,
     rankLogo: '',
-    team: '',
+    team: initialTeam,
     boxScore: { goals: { for: '', against: '' } },
     goalDiff: '',
     points: '',
@@ -40,21 +41,27 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague }) => {
 
       const tempLeague = { ...request.data.response[0].league.standings[0] };
       setLeague({ ...tempLeague });
+
+      const getInitialTeam = request.data.response[0].league.standings[0].filter((row: any) => {
+        return row.team.id === initialTeam;
+      });
+      const initialPosition = getInitialTeam[0].rank !== undefined ? getInitialTeam[0].rank - 1 : 0;
+
       setState({
-        visibleRank: 0,
-        rankLogo: tempLeague[0].team.logo,
-        team: tempLeague[0].team.name,
-        boxScore: tempLeague[0].all,
-        goalDiff: tempLeague[0].goalsDiff,
-        points: tempLeague[0].points,
-        form: tempLeague[0].form,
+        visibleRank: initialPosition,
+        rankLogo: tempLeague[initialPosition].team.logo,
+        team: tempLeague[initialPosition].team.name,
+        boxScore: tempLeague[initialPosition].all,
+        goalDiff: tempLeague[initialPosition].goalsDiff,
+        points: tempLeague[initialPosition].points,
+        form: tempLeague[initialPosition].form,
         dataLoaded: true,
       });
 
       return request;
     };
     fetchLeague();
-  }, [premeireLeague, season, setLeague, setState]);
+  }, [initialTeam, premeireLeague, season, setLeague, setState]);
 
   const wrapRank = (rank: number, direction: number): number => {
     let tempRank = rank;

@@ -21,7 +21,12 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
       <div className="row">
         <div className="col-sm">
           <Card>
-            <Table season={season} premeireLeague={premeireLeague} className="gameCard" />
+            <Table
+              season={season}
+              premeireLeague={premeireLeague}
+              initialTeam={team}
+              className="gameCard"
+            />
           </Card>
         </div>
         <div className="col-sm">
