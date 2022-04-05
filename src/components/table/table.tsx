@@ -42,10 +42,13 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague, initialT
       const tempLeague = { ...request.data.response[0].league.standings[0] };
       setLeague({ ...tempLeague });
 
-      const getInitialTeam = request.data.response[0].league.standings[0].filter((row: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const getInitialTeam = request.data.response[0].league.standings[0].find((row: any) => {
         return row.team.id === initialTeam;
       });
-      const initialPosition = getInitialTeam[0].rank !== undefined ? getInitialTeam[0].rank - 1 : 0;
+      let { rank: initialPosition = 1 } = getInitialTeam;
+      // eslint-disable-next-line no-plusplus
+      initialPosition--;
 
       setState({
         visibleRank: initialPosition,
