@@ -29,6 +29,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
     venue: '',
     seasonOver: false,
     dataLoaded: false,
+    gameStatus: null,
   };
 
   const [state, setState] = useMergeState(initialState);
@@ -47,6 +48,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
 
       if (request.data.results > 0) {
         const teamData = { ...request.data.response[0] };
+        console.log(teamData);
         const gameDate = new Date(teamData.fixture.date);
         setState({
           teams: teamData.teams,
@@ -55,6 +57,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
           gameDate: gameDate.toDateString(),
           seasonOver: false,
           dataLoaded: true,
+          gameStatus: teamData.fixture.status.long,
         });
       } else {
         setState({
@@ -67,6 +70,13 @@ const GameCard: FunctionComponent<GameCardProps> = ({
 
     fetchGames();
   }, [apiDirection, premeireLeague, season, setState, team]);
+
+  const isPostponed = (status: string): string => {
+    if (status === 'Match Postponed') {
+      return status;
+    }
+    return '';
+  };
 
   return (
     <div className="card-body">
@@ -109,6 +119,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
                   <div className="score__block">
                     {state.gameDate}
                     <br />
+                    <div className="postponed">{isPostponed(state.gameStatus)}</div>
                     {direction && (
                       <div className="score__score">
                         {state.goals.home} - {state.goals.away}
