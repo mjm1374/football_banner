@@ -10,6 +10,7 @@ type BoxScoreProps = {
   goalDiff: number;
   points: number;
   form: string;
+  leagueName: string;
 };
 
 const BoxScore: FunctionComponent<BoxScoreProps> = ({
@@ -19,11 +20,12 @@ const BoxScore: FunctionComponent<BoxScoreProps> = ({
   goalDiff,
   points,
   form,
+  leagueName,
 }) => {
   return (
     <div className="football_boxscore">
       <div className="football_title">{team}</div>
-      <div>Premeire League</div>
+      <div>{leagueName}</div>
       <table className="football__table">
         <tbody>
           <tr className="football__table_tr">

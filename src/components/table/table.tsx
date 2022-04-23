@@ -9,11 +9,11 @@ import Spinner from '../spinner/spinner';
 type TableProps = {
   className?: string;
   season: number;
-  premeireLeague: number;
+  currentLeague: number;
   initialTeam: number;
 };
 
-const Table: FunctionComponent<TableProps> = ({ season, premeireLeague, initialTeam }) => {
+const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTeam }) => {
   const initialState = {
     visibleRank: 0,
     rankLogo: '',
@@ -23,6 +23,7 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague, initialT
     points: '',
     form: '',
     dataLoaded: false,
+    leagueName: '',
   };
 
   const [state, setState] = useMergeState(initialState);
@@ -35,7 +36,7 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague, initialT
       const request = await axios.get(`/standings`, {
         params: {
           season,
-          league: premeireLeague,
+          league: currentLeague,
         },
       });
 
@@ -59,12 +60,13 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague, initialT
         points: tempLeague[initialPosition].points,
         form: tempLeague[initialPosition].form,
         dataLoaded: true,
+        leagueName: request.data.response[0].league.name,
       });
 
       return request;
     };
     fetchLeague();
-  }, [initialTeam, premeireLeague, season, setLeague, setState]);
+  }, [initialTeam, currentLeague, season, setLeague, setState]);
 
   const wrapRank = (rank: number, direction: number): number => {
     let tempRank = rank;
@@ -136,6 +138,7 @@ const Table: FunctionComponent<TableProps> = ({ season, premeireLeague, initialT
             points={state.points}
             rank={state.visibleRank}
             form={state.form}
+            leagueName={state.leagueName}
           />
         </div>
       )}

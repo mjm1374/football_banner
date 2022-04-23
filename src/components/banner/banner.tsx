@@ -13,7 +13,7 @@ type BannerProps = {
 
 const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
   const season = 2021;
-  const premeireLeague = 39;
+  const currentLeague = 39;
   const team = 50;
 
   return (
@@ -23,7 +23,7 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
           <Card>
             <Table
               season={season}
-              premeireLeague={premeireLeague}
+              currentLeague={currentLeague}
               initialTeam={team}
               className="gameCard"
             />
@@ -31,23 +31,12 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
         </div>
         <div className="col-sm">
           <Card className="mobileHide">
-            <GameCard
-              season={season}
-              premeireLeague={premeireLeague}
-              className="gameCard"
-              team={team}
-              direction
-            />
+            <GameCard season={season} currentLeague={currentLeague} team={team} direction />
           </Card>
         </div>
         <div className="col-sm">
           <Card className="mobileHide">
-            <GameCard
-              season={season}
-              premeireLeague={premeireLeague}
-              className="gameCard"
-              team={team}
-            />
+            <GameCard season={season} currentLeague={currentLeague} team={team} />
           </Card>
         </div>
         {children}

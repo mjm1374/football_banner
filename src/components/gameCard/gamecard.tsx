@@ -7,19 +7,18 @@ import Spinner from '../spinner/spinner';
 import './gameCard.scss';
 
 type GameCardProps = {
-  className?: string;
   direction?: boolean;
+  currentLeague: number;
   season: number;
-  premeireLeague: number;
   team: number;
 };
 
 const GameCard: FunctionComponent<GameCardProps> = ({
   direction,
+  currentLeague,
   season,
-  premeireLeague,
   team,
-}) => {
+}): JSX.Element => {
   const apiDirection = direction ? 'last' : 'next';
 
   const initialState = {
@@ -36,11 +35,11 @@ const GameCard: FunctionComponent<GameCardProps> = ({
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    async function fetchGames() {
+    const fetchGames = async () => {
       const request = await axios.get('/fixtures', {
         params: {
           season,
-          league: premeireLeague,
+          league: currentLeague,
           team,
           [`${apiDirection}`]: '1',
         },
@@ -48,7 +47,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
 
       if (request.data.results > 0) {
         const teamData = { ...request.data.response[0] };
-        console.log(teamData);
+        // console.log(teamData);
         const gameDate = new Date(teamData.fixture.date);
         setState({
           teams: teamData.teams,
@@ -66,17 +65,17 @@ const GameCard: FunctionComponent<GameCardProps> = ({
         });
       }
       return request;
-    }
+    };
 
     fetchGames();
-  }, [apiDirection, premeireLeague, season, setState, team]);
+  }, [apiDirection, currentLeague, season, setState, team]);
 
-  const isPostponed = (status: string): string => {
+  function isPostponed({ status }: { status: string }): string {
     if (status === 'Match Postponed') {
       return status;
     }
     return '';
-  };
+  }
 
   return (
     <div className="card-body">
@@ -119,7 +118,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
                   <div className="score__block">
                     {state.gameDate}
                     <br />
-                    <div className="postponed">{isPostponed(state.gameStatus)}</div>
+                    <div className="postponed">{isPostponed({ status: state.gameStatus })}</div>
                     {direction && (
                       <div className="score__score">
                         {state.goals.home} - {state.goals.away}
