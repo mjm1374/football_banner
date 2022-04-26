@@ -16,7 +16,7 @@ type TableProps = {
 const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTeam }) => {
   const initialState = {
     visibleRank: 0,
-    rankLogo: '',
+    teamLogo: '',
     team: initialTeam,
     boxScore: { goals: { for: '', against: '' } },
     goalDiff: '',
@@ -24,6 +24,7 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
     form: '',
     dataLoaded: false,
     leagueName: '',
+    leagueSize: 0,
   };
 
   const [state, setState] = useMergeState(initialState);
@@ -53,7 +54,7 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
 
       setState({
         visibleRank: initialPosition,
-        rankLogo: tempLeague[initialPosition].team.logo,
+        teamLogo: tempLeague[initialPosition].team.logo,
         team: tempLeague[initialPosition].team.name,
         boxScore: tempLeague[initialPosition].all,
         goalDiff: tempLeague[initialPosition].goalsDiff,
@@ -61,6 +62,7 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
         form: tempLeague[initialPosition].form,
         dataLoaded: true,
         leagueName: request.data.response[0].league.name,
+        leagueSize: request.data.response[0].league.standings[0].length,
       });
 
       return request;
@@ -71,8 +73,8 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
   const wrapRank = (rank: number, direction: number): number => {
     let tempRank = rank;
     tempRank += direction;
-    if (tempRank === 20) tempRank = 0;
-    if (tempRank === -1) tempRank = 19;
+    if (tempRank === state.leagueSize) tempRank = 0;
+    if (tempRank === -1) tempRank = state.leagueSize - 1;
     return tempRank;
   };
 
@@ -81,7 +83,7 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
     const newRank = wrapRank(state.visibleRank, direction);
     setState({
       visibleRank: newRank,
-      rankLogo: league[newRank].team.logo,
+      teamLogo: league[newRank].team.logo,
       team: league[newRank].team.name,
       boxScore: league[newRank].all,
       goalDiff: league[newRank].goalsDiff,
@@ -130,7 +132,7 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
               </Button>
             </div>
           </div>
-          <TeamLogo logo={state.rankLogo} team={team} size="lrg" />
+          <TeamLogo logo={state.teamLogo} team={team} size="lrg" />
           <BoxScore
             team={state.team}
             boxScore={state.boxScore}
