@@ -19,8 +19,8 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
     teamLogo: '',
     team: initialTeam,
     boxScore: { goals: { for: '', against: '' } },
-    goalDiff: '',
-    points: '',
+    goalDiff: 0,
+    points: 0,
     form: '',
     dataLoaded: false,
     leagueName: '',
@@ -42,6 +42,15 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
       });
 
       const tempLeague = { ...request.data.response[0].league.standings[0] };
+
+      // preload images
+      request.data.response[0].league.standings[0].forEach(
+        (thisTeam: { team: { logo: string } }) => {
+          const img = new Image();
+          img.src = thisTeam.team.logo;
+        },
+      );
+
       setLeague({ ...tempLeague });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
