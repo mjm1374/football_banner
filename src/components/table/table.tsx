@@ -41,8 +41,6 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
         },
       });
 
-      const tempLeague = { ...request.data.response[0].league.standings[0] };
-
       // preload images
       request.data.response[0].league.standings[0].forEach(
         (thisTeam: { team: { logo: string } }) => {
@@ -51,6 +49,7 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
         },
       );
 
+      const tempLeague = { ...request.data.response[0].league.standings[0] };
       setLeague({ ...tempLeague });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
