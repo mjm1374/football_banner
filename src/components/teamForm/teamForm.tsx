@@ -8,7 +8,10 @@ type TeamFormProps = {
 };
 
 const TeamForm: FunctionComponent<TeamFormProps> = ({ form }) => {
-  const chars = form.split('');
+  let chars: string[] = [];
+  if (form) {
+    chars = form.split('');
+  }
   let newForm = '';
   let formClass = '';
 

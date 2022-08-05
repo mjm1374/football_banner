@@ -12,7 +12,7 @@ type BannerProps = {
 };
 
 const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
-  const season = 2021;
+  const season = 2022;
   const currentLeague = 39;
   const team = 50;
 
