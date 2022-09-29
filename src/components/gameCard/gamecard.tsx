@@ -23,6 +23,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
 
   const initialState = {
     gameDate: '',
+    gameTime: '',
     teams: { away: { name: '', id: '', logo: '' }, home: { name: '', id: '', logo: '' } },
     goals: { away: '0', home: '0' },
     venue: '',
@@ -32,6 +33,19 @@ const GameCard: FunctionComponent<GameCardProps> = ({
   };
 
   const [state, setState] = useMergeState(initialState);
+
+  function formatTime(gameDate: Date): string {
+    const hours: number =
+      // eslint-disable-next-line no-nested-ternary
+      gameDate.getHours() === 0
+        ? 12
+        : gameDate.getHours() > 12
+        ? gameDate.getHours() - 12
+        : gameDate.getHours();
+    const minuntes: string = gameDate.getMinutes().toString().padStart(2, '0');
+    const amPm = gameDate.getHours() < 12 ? 'AM' : 'PM';
+    return `${hours.toString()}:${minuntes} ${amPm}`;
+  }
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -54,6 +68,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
           goals: teamData.goals,
           venue: teamData.fixture.venue.name,
           gameDate: gameDate.toDateString(),
+          gameTime: formatTime(gameDate),
           seasonOver: false,
           dataLoaded: true,
           gameStatus: teamData.fixture.status.long,
@@ -116,7 +131,7 @@ const GameCard: FunctionComponent<GameCardProps> = ({
                     />
                   </div>
                   <div className="score__block">
-                    {state.gameDate}
+                    {state.gameDate} - {state.gameTime}
                     <br />
                     <div className="postponed">{isPostponed({ status: state.gameStatus })}</div>
                     {direction && (
