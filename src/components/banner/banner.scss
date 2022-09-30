@@ -8,11 +8,13 @@
     filter: drop-shadow(10px 10px 10px rgba(0,0,0,.3));
 
     .card {
-        background-color: rgba(255,255,255,0.75);
+        background-color: rgba(255,255,255,0.5);
+        backdrop-filter: blur(2px);
         border-radius: 25px;
-        border: 1px solid #000;
+        border: 3px solid #000;
         overflow: auto;
         min-height: 150px;
+
 
         .ui.inverted.dimmer{
             background-color: rgba(255,255,255,0.0);
