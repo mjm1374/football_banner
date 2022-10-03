@@ -4,13 +4,19 @@ import classnames from 'classnames';
 import './TeamLogo.scss';
 
 type LogoProps = {
-  // eslint-disable-next-line react/require-default-props
-  logo?: string;
+  logo: string;
   team: string;
   size: string;
-  // eslint-disable-next-line react/require-default-props
-  showName?: boolean;
+  showName: boolean;
+} & typeof defaultProps;
+
+const defaultProps = {
+  logo: '',
+  team: '',
+  size: '',
+  showName: true,
 };
+
 const TeamLogo: FunctionComponent<LogoProps> = ({ logo, team, size, showName }) => (
   <div className="football_logo">
     <img src={logo} alt={team} className={classnames('teamLogo', size)} />

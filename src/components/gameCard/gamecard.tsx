@@ -8,10 +8,17 @@ import './gameCard.scss';
 
 type GameCardProps = {
   // eslint-disable-next-line react/require-default-props
-  direction?: boolean;
+  direction: boolean;
   currentLeague: number;
   season: number;
   team: number;
+} & typeof defaultProps;
+
+const defaultProps = {
+  direction: true,
+  currentLeague: 39,
+  season: 2022,
+  team: 50,
 };
 
 const GameCard: FunctionComponent<GameCardProps> = ({

@@ -10,8 +10,12 @@ type TableProps = {
   season: number;
   currentLeague: number;
   initialTeam: number;
-  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
-  className?: string;
+} & typeof defaultProps;
+
+const defaultProps = {
+  season: 2022,
+  currentLeague: 39,
+  initialTeam: 50,
 };
 
 const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTeam }) => {
@@ -141,7 +145,7 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
               </Button>
             </div>
           </div>
-          <TeamLogo logo={state.teamLogo} team={team} size="lrg" />
+          <TeamLogo logo={state.teamLogo} team={team} size="lrg" showName />
           <BoxScore
             team={state.team}
             boxScore={state.boxScore}

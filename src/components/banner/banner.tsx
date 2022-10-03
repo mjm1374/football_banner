@@ -25,12 +25,7 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
       <div className="row">
         <div className="col-sm">
           <Card>
-            <Table
-              season={season}
-              currentLeague={currentLeague}
-              initialTeam={team}
-              className="gameCard"
-            />
+            <Table season={season} currentLeague={currentLeague} initialTeam={team} />
           </Card>
         </div>
         <div className="col-sm">
@@ -40,7 +35,7 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
         </div>
         <div className="col-sm">
           <Card className="mobileHide">
-            <GameCard season={season} currentLeague={currentLeague} team={team} />
+            <GameCard season={season} currentLeague={currentLeague} team={team} direction />
           </Card>
         </div>
         {children}
