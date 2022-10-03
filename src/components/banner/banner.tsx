@@ -35,7 +35,7 @@ const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
         </div>
         <div className="col-sm">
           <Card className="mobileHide">
-            <GameCard season={season} currentLeague={currentLeague} team={team} direction />
+            <GameCard season={season} currentLeague={currentLeague} team={team} direction={false} />
           </Card>
         </div>
         {children}
