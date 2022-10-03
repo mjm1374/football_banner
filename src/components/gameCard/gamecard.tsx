@@ -7,6 +7,7 @@ import Spinner from '../spinner/spinner';
 import './gameCard.scss';
 
 type GameCardProps = {
+  // eslint-disable-next-line react/require-default-props
   direction?: boolean;
   currentLeague: number;
   season: number;

@@ -8,7 +8,11 @@ import GameCard from '../gameCard/gamecard';
 import './banner.scss';
 
 type BannerProps = {
-  className?: string;
+  className: string;
+} & typeof defaultProps;
+
+const defaultProps = {
+  className: '',
 };
 
 const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {

@@ -7,10 +7,11 @@ import TeamLogo from '../teamLogo/TeamLogo';
 import Spinner from '../spinner/spinner';
 
 type TableProps = {
-  className?: string;
   season: number;
   currentLeague: number;
   initialTeam: number;
+  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
+  className?: string;
 };
 
 const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTeam }) => {
