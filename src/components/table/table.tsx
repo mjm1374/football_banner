@@ -145,7 +145,7 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
               </Button>
             </div>
           </div>
-          <TeamLogo logo={state.teamLogo} team={team} size="lrg" showName />
+          <TeamLogo logo={state.teamLogo} team={team} size="lrg" showName={false} />
           <BoxScore
             team={state.team}
             boxScore={state.boxScore}
