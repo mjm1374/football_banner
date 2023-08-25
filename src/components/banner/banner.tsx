@@ -16,7 +16,7 @@ const defaultProps = {
 };
 
 const Banner: FunctionComponent<BannerProps> = ({ className, children }) => {
-  const season = 2022;
+  const season = 2023;
   const currentLeague = 39;
   const team = 50;
 

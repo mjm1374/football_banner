@@ -13,12 +13,13 @@ type TableProps = {
 } & typeof defaultProps;
 
 const defaultProps = {
-  season: 2022,
+  season: 2023,
   currentLeague: 39,
   initialTeam: 50,
 };
 
 const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTeam }) => {
+  console.log(season);
   const initialState = {
     visibleRank: 0,
     teamLogo: '',
@@ -38,6 +39,8 @@ const Table: FunctionComponent<TableProps> = ({ season, currentLeague, initialTe
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+
+    console.log(season);
     const fetchLeague = async () => {
       const request = await axios.get(`/standings`, {
         params: {
